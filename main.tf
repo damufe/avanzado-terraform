@@ -26,3 +26,7 @@ provider "aws" {
 resource "aws_s3_bucket" "bucket V1.0" {
   bucket = "mi-bucket-local-V1.0"
 }
+# Segundo Buckket S3
+resource "aws_s3_bucket" "bucket V1.1" {
+  bucket = "mi-bucket-local-V1.1"
+}
