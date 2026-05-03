@@ -1,0 +1,52 @@
+name: "Terraform Deploy a LocalStack"
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  deploy:
+    name: Desplegar infraestructura en LocalStack
+    runs-on: ubuntu-latest
+
+    # Contenedor LocalStack como servicio del job
+    services:
+      localstack:
+        image: localstack/localstack:latest
+        ports:
+          - 4566:4566                # Puerto principal de LocalStack
+        env:
+          SERVICES: s3
+          DEFAULT_REGION: us-west-1
+          AWS_ACCESS_KEY_ID: test
+          AWS_SECRET_ACCESS_KEY: test
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.5"
+
+      - name: Esperar a que LocalStack esté listo
+        run: |
+          echo "Esperando a LocalStack en http://localhost:4566/_localstack/health"
+          for i in {1..30}; do
+            if curl -s http://localhost:4566/_localstack/health | grep -q '"s3":"available"'; then
+              echo "LocalStack listo"
+              break
+            fi
+            echo "Intento $i: LocalStack no listo, esperando 2s..."
+            sleep 2
+          done
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
