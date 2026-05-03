@@ -12,12 +12,12 @@ jobs:
     # Contenedor LocalStack como servicio del job
     services:
       localstack:
-        image: localstack/localstack:latest
+        image: localstack/localstack:2.3.2
         ports:
           - 4566:4566                # Puerto principal de LocalStack
         env:
           SERVICES: s3
-          DEFAULT_REGION: us-west-1
+          DEFAULT_REGION: eu-west-1
           AWS_ACCESS_KEY_ID: test
           AWS_SECRET_ACCESS_KEY: test
 
