@@ -1,0 +1,23 @@
+# Ignorar directorio de Terraform con proveedores y caché
+.terraform/
+
+# Archivos de estado (no se deben versionar en remoto)
+*.tfstate
+*.tfstate.backup
+*.tfstate.*
+
+# Archivo de variables con valores sensibles
+*.tfvars
+*.tfvars.json
+
+# Sobrescribir plan binario
+*.tfplan
+
+# Bloqueo de dependencias (opcional, si usas .terraform.lock.hcl)
+.terraform.lock.hcl
+
+# Archivo de override
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
