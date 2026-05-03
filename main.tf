@@ -22,3 +22,7 @@ provider "aws" {
     s3 = "http://localhost:4566"   # endpoint de LocalStack
   }
 }
+# Bucket S3
+resource "aws_s3_bucket" "bucket V1.0" {
+  bucket = "mi-bucket-local-V1.0"
+}
